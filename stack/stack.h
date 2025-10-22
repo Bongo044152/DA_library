@@ -2,11 +2,10 @@
 #define STACK_H
 
 #define STACK_OK 0
-#define STACK_FAIL 0
-#define STACK_EMPTY 0
-#define STACK_FULL 0
+#define STACK_FAIL -1
+#define STACK_EMPTY -2
+#define STACK_FULL -3
 
-#endif
 
 struct stack {
     int *element;
@@ -22,3 +21,5 @@ int pop(stack *,int* retvalue);
 int isexist(stack *,int value);
 int isfull(stack *);
 int isempty(stack *);
+
+#endif
