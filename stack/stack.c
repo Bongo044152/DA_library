@@ -3,50 +3,62 @@
 #include <string.h> //for memset
 #include "stack.h"
 
-int init(stack *stackptr,int size) {
-    if(stackptr == NULL) return STACK_FAIL;
+int init(stack_t *stackptr,int size) {
+    if(stackptr == NULL) return -1;
     if(size > 0) {
-        stackptr -> element = (int*)malloc(size*sizeof(int));
-        
-        if(stackptr -> element == NULL) return STACK_FAIL;
+        stackptr -> elements =(void**) malloc(size*sizeof(void*));//記得malloc的型態是void 不是int
 
-        memset(stackptr -> element,-1,size*sizeof(int));
-        stackptr -> sp =-1;
+        if(stackptr -> elements == NULL) return -1;//remember
+        memset(stackptr -> elements,0,size*sizeof(void*));
+        stackptr -> sp = -1;
         stackptr -> size = size;
-        return STACK_OK;
+
+        return 0;
     }
-    return STACK_FAIL;
+    return -1;
 }
 
-int isfull(stack *stackptr) {
-    return((stackptr -> sp) >= (stackptr -> size -1));
+int isfull(stack_t *stackptr) {
+    if(stackptr == NULL) return -1;
+    return (stackptr -> sp >= stackptr -> size - 1);
 }
 
-int push(stack *stackptr,int value) {
-    if(stackptr == NULL || stackptr -> element == NULL) return STACK_FAIL;
+int push(stack_t *stackptr,void *val) {
+    if(stackptr == NULL) return -1;
     if(!isfull(stackptr)) {
-        stackptr -> element[++stackptr -> sp] = value;
-        return STACK_OK;
+        stackptr -> elements[++(stackptr -> sp)] = val;
+        return 0;
     }
-    return STACK_FULL;
+    return -1;
 }
 
-int isempty(stack* stackptr) {
+int isempty(stack_t* stackptr) {
+    if(stackptr == NULL) return -1;
     return(stackptr -> sp < 0);
 }
 
-int pop(stack *stackptr,int *retvalue) {
-    if(stackptr == NULL || stackptr -> element == NULL) return STACK_FAIL;
+int pop1(stack_t* stackptr,void** retvalue) {
+    if(stackptr == NULL) return -1;
     if(!isempty(stackptr)) {
-        *retvalue = stackptr -> element[stackptr -> sp--];
-        return STACK_OK;
+        *retvalue = stackptr -> elements[(stackptr -> sp)--];
+        return 0;
     }
-    return STACK_EMPTY;
+    return -1;
 }
 
-int isexist(stack *stackptr, int value) {
-    for(int i=0; i<=stackptr -> sp ; i++) {
-        if(stackptr -> element[i] == value) return STACK_OK;
+void *pop2(stack_t* stackptr,int* status) {
+    if(stackptr == NULL) return -1;
+    if(!isempty(stackptr)) {
+        *status = 0;
+        return stackptr -> elements[(stackptr -> sp)--];
     }
-    return STACK_FAIL;
+    return NULL;
+}
+
+int isexist(stack_t* stackptr,void* key,int (*compare)(void* key,void* node)){
+    if(stackptr == NULL) return -1;
+    for(int i=0;i<=stackptr ->sp;i++) {
+        if(compare(key,stackptr -> elements[i])==0) return 0;
+    }
+    return -1;
 }

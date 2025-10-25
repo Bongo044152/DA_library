@@ -1,25 +1,29 @@
-#ifndef STACK_H
-#define STACK_H
+#ifndef stack_h
+#define stack_h
 
-#define STACK_OK 0
-#define STACK_FAIL -1
-#define STACK_EMPTY -2
-#define STACK_FULL -3
-
+#define STACK_OK        0
+#define STACK_FULL      -1
+#define STACK_EMPTY     -2
+#define STACK_FAIL      -3
 
 struct stack {
-    int *element;
-    int size;
+    void** elements;
     int sp;
+    int size;
 };
-typedef struct stack stack;
+
+typedef struct stack stack_t;
+
+int init(stack_t* ,int size);
+int push(stack_t*,void*);
+int isfull(stack_t*);
+int isempty(stack_t*);
+int isexist(stack_t*,void*,int compare(void*,void*));
+int pop1(stack_t*,void**ret);
+void* pop2(stack_t*,int*);
 
 
-int init(stack *,int size);
-int push(stack *,int value);
-int pop(stack *,int* retvalue);
-int isexist(stack *,int value);
-int isfull(stack *);
-int isempty(stack *);
+
+
 
 #endif
