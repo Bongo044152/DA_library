@@ -37,7 +37,7 @@ int main(void) {
     puts("=== Remove Head (5) ===");
     target = head;                          // 指向 5（head）
     ret = removenode(&head, target);
-    // 注意：這裡 ret 不是被刪節點，是「新 head」，不能 free！
+    free(ret);
     printList(head);  // 20 30
 
     puts("=== Done ===");
