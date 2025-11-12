@@ -36,7 +36,7 @@ int isempty(queue_t* queueptr) {
 }
 
 int dequeue(queue_t* queueptr,void** retval) {
-    if(queueptr == NULL) return QUEUE_FULL;
+    if(queueptr == NULL) return QUEUE_FAIL;
     if(!isempty(queueptr)) {
         *retval = queueptr -> elements[queueptr -> front];
         queueptr -> front = (queueptr -> front +1) %(queueptr -> capacity);//注意這一定要加 要環回
@@ -53,4 +53,15 @@ int isexist(queue_t* queueptr,void *val,int(*compare)(void*,void*)) {
             return 0;
     }
     return -1;
+}
+
+void queue_free(queue_t* queueptr) {
+    if(!queueptr) return;
+    if(queueptr->elements != NULL) {
+        free(queueptr->elements);
+        queueptr->elements = NULL;
+    }
+    queueptr->front = 0;
+    queueptr->capacity = 0;
+    queueptr->size = 0;
 }

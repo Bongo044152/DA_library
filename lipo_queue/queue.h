@@ -21,6 +21,7 @@ int enqueue(queue_t* queueptr,void* val);
 int isempty(queue_t* queueptr);
 int dequeue(queue_t* queueptr,void** retval);
 int isexist(queue_t* queueptr,void *val,int(*compare)(void*,void*));
+void queue_free(queue_t* queueptr);
 
 
 #endif
