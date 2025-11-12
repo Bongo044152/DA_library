@@ -21,6 +21,7 @@ int isempty(stack_t*);
 int isexist(stack_t*,void*,int compare(void*,void*));
 int pop1(stack_t*,void**ret);
 void* pop2(stack_t*,int*);
+void free_stack(stack_t *);
 
 
 
